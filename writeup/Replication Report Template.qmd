@@ -19,6 +19,18 @@ The original experiment was conducted online using PCIbex and the authors shared
 
 https://github.com/iamlumiya/-replication.git
 
+[Revision]
+The paper outlines two competing predictions: Real-world knowledge dominance and contextual modulation. If real-world knowledge strongly guides comprehension even in unrealistic contexts, implausible target words should produce longer reading times than plausible target words in both realistic and unrealistic contexts. This plausibility effect may emerge at the critical word or in subsequent spillover regions and persist into later regions. On the other hand, if context modulates the influence of real-world knowledge, implausible target words should produce longer reading times than plausible target words in realistic contexts. In unrealistic contexts, an initial plausibility effect may also emerge, but it should weaken or reverse in later regions as comprehenders integrate the information with the dream context. A reversal would mean shorter reading times following implausible than plausible target words within unrealistic contexts. 
+Based on the original findings, I will examine the plausibility main effect of at Spill3 as primary study with the corresponding effect at Spill2 as an additional outcome. To examine contextual modulation, I will test the context x plausibility interaciton at Spill 5 as a secondary outcome and report its estimate and confidence interval. Spill 5 is always the sentence-final word, where sentence wrap-up processes may encourage comprehenders to integrate the sentence with the broader context.
+
+The original study included 104 participants after exclusions, but recruiting a comparable sample may not be feasible within the quarter. I therefore conducted a simulation-based power analysis using simr based on the original study's final mixed-effects model for Spill3. Across 1000 simulations, a sample of 60 participants provided approximately 88% power to detect the plausibility main effect at ⍺ = .05, assuming an effect 25% smaller than the original estimate. Based on this, I will aim for 60 participants after exclusions and recruit approximately 76 participants to allow for exclusions based on the original study's exclusion rate. The context x plausibility interaction in Spill5 will be treated as a secondary outcome with emphasis on its estimate and confidence interval as this sample size is not expected to provide adequate power for that interaction. 
+For the analysis, I will follow the original study by starting with the maximal random-effects structure. If convergence issues arise, I will simplify the structure using a prespecified sequence and document any changes.
+
+I also explored PCIbex and its moving window functionality for self-paced reading. Using the same platform as the original study would help maintain consistency in the experimental procedure, so I plan to use PCIbex for data collection. 
+
+My research background is primarily qualitative and theory-focused, and I began conducting experiments after starting my PhD about two years ago. I am still developing confidence in quantitative analysis, so this replication would provide valuable experience with experiment design and mixed-effects modeling. Although self-paced reading differs from the EEG methods I currently use, these skills would also support my broader research on language comprehension.
+
+
 ## Methods
 
 ### Power Analysis
