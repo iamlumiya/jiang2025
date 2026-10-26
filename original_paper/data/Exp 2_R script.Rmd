@@ -908,3 +908,39 @@ spill5_cont2
 data_spill5 %>% group_by(context,plausibility) %>% 
   summarise(mean(RT))
 ```
+
+
+install.packages("simr")  # 처음 한 번만
+library(simr)
+
+run_simr <- function(region, n, effect_scale = 1,
+                     nsim = 100, seed = 123) {
+
+  set.seed(seed)
+
+  # 원래 모델을 복사
+  m <- models[[region]]
+  term <- terms_to_test[[region]]
+
+  # 검정할 효과 크기 설정
+  fixef(m)[term] <- fixef(models[[region]])[term] *
+    effect_scale
+
+  # 4개 리스트를 균등하게 유지하는 새 참가자 데이터
+  d <- new_design(datasets[[region]], n)
+
+  # Contrast coding 재확인
+  contrasts(d$context) <- c(-0.5, 0.5)
+  contrasts(d$plausibility) <- c(-0.5, 0.5)
+
+  getData(m) <- d
+
+  # Power simulation
+  powerSim(
+    m,
+    test = fixed(term, method = "t"),
+    nsim = nsim,
+    alpha = 0.05,
+    seed = seed
+  )
+}
