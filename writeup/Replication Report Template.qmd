@@ -3,7 +3,7 @@ title: "Replication of Study Expecting the unexpected by Jiang & Filik (2025, Me
 author: "Lumi Kang"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
-  html:
+  pdf:
     toc: true
     toc_depth: 3
 ---
