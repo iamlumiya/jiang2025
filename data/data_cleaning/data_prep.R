@@ -41,7 +41,6 @@ View(eligible_demographics)
 read_pcibex <- function(path) {
   lines <- read_lines(path)
   lines <- lines[!str_detect(lines, "^\\s*(#|$)")]
-  
   read.csv(
     text = lines,
     header = FALSE,
@@ -142,7 +141,7 @@ grand_mean <- mean(rt_bounded$rt_ms)
 grand_sd <- sd(rt_bounded$rt_ms)
 
 rt_prepared <- rt_bounded |>
-  filter(between(rt_ms, grand_mean - 2.5 * grand_sd, grand_mean + 2 * grand_sd))
+  filter(between(rt_ms, grand_mean - 2.5 * grand_sd, grand_mean + 2.5 * grand_sd))
 
 trimming_summary <- tibble(
   eligible_sessions = length(eligible_session_ids),
@@ -165,30 +164,22 @@ condition_key <- tribble(
   "D",        "realistic",   "plausible"
 )
 
-cl_lookup <- read_csv(reference_file, show_col_types = FALSE) |>
-  transmute(item = as.integer(item), context, plausibility, CL) |>
-  distinct()
-
 position_labels <- c("critical", paste0("spill", 1:5))
 
 analysis_data <- rt_prepared |>
   mutate(
     subject = session_id,
     list = list_number,
-    # Assumes the critical word is sixth from the end.
     position = factor(
       position_labels[7L - words_from_end],
       levels = position_labels
-    )
+    ),
+    CL = sentence_length
   ) |>
   left_join(condition_key, by = "condition", relationship = "many-to-one") |>
-  left_join(
-    cl_lookup,
-    by = c("item", "context", "plausibility"),
-    relationship = "many-to-one"
-  ) |>
   arrange(subject, item, position) |>
   select(subject, list, item, position, context, plausibility, CL, RT = rt_ms)
+
 
 if (anyNA(analysis_data$CL)) {
   stop("Some item/condition combinations did not match the reference CL values.")
