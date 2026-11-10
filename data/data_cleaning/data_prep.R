@@ -107,7 +107,7 @@ critical <- raw |>
     item_order = V4,
     inner_element = V5,
     word_position = as.integer(V10),
-    sentence_length = lengths(str_split(V25, fixed("*"))),
+    sentence_length = lengths(strsplit(V25, "*", fixed = TRUE)),
     words_from_end = sentence_length - word_position + 1L,
     word = map_chr(V11, URLdecode),
     rt_ms = as.numeric(V23),
