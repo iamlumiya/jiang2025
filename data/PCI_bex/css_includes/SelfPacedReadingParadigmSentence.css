@@ -1,0 +1,50 @@
+.sentence {
+  background-color: white;
+  clear: both;
+  color: black;
+  font-size: 25px;
+  font-family: Arial;
+  padding-left: 10em;
+  padding-right: 10em;
+  text-align: center;
+}
+.question {
+  padding-left: 0.6em;
+}
+.rating {
+ padding-left: 0.6em;
+}
+.sentence {
+ line-height: 300%;
+}
+.ospan {
+  border-bottom: 1px solid #9ea4b1;
+  background-color: white;
+}
+.ispan {
+  visibility: hidden;
+}
+.practice-text {
+ color: black; 
+ font-weight: bold;
+ font-size: 800px;
+}
+.iphone-next {
+ clear: both;
+ background: white;
+ color: gray;
+ foreground: gray;
+ text-align: center;
+ display: table;
+ font-size: 800px;
+ padding-top: 1em;
+ padding-bottom: 1em;
+ padding-left: 1em;
+ padding-right: 1em;
+ margin-left: 1em;
+ margin-right: 1em;
+ cursor: pointer;
+ font-family: Arial;
+ font-weight: bold;
+ -webkit-border-radius: 5px;
+}
