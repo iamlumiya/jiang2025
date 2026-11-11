@@ -1,0 +1,5 @@
+session_id,sona_id,submitted_at_pt,list_number,age,gender,native_english,disorders,n_answered,n_correct,accuracy_pct
+S001,59832,2026-11-04 15:09:35 PST,3,20,Female,Yes,No,29,14,48.3
+S002,59832,2026-11-04 15:25:39 PST,3,20,Female,Yes,No,29,15,51.7
+S003,59832,2026-11-06 16:03:18 PST,3,21,Female,Yes,No,29,26,89.7
+S004,sonaID,2026-11-08 14:42:46 PST,4,29,Female,Yes,No,29,29,100
