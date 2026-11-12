@@ -1,0 +1,9 @@
+ITEM,CONDITION,SENTENCE,QUESTION,STATEMENT,CORRECT,WRONG
+1001,E,Olivia*had*a*wonderful*time*tonight.*She*and*her*husband*watched*her*favorite*TV*show*together*on*the*couch.,0,,,
+1002,E,"Sawyer*was*so*tired*today*that*he*fell*asleep*on*the*tram*this*afternoon.*When*he*woke*up,*he*had*already*missed*his*stop.",1,Sawyer fell asleep on the plane.,Wrong,Right
+1003,E,Penelope*forgot*to*separate*the*whites*from*the*colors*when*doing*laundry*yesterday.*Her*favorite*shirt*was*completely*ruined.,0,,,
+1004,E,"Ava*was*stuck*in*a*traffic*jam*when*she*drove*to*the*airport*from*home.*As*a*result,*she*didn’t*catch*her*flight.",0,,,
+1005,E,"Milo*bought*a*duvet*cover*online*several*days*ago.*When*he*finally*received*the*package,*he*found*that*it*was*not*the*color*he*wanted.",0,,,
+1006,E,"Ian*accidentally*fell*from*the*balcony*this*morning,*and*he*is*still*in*the*ICU*now.*His*parents*have*been*worried*sick.",1,Ian was hit by a car this morning. ,Wrong,Right
+1007,E,Parker*was*caught*cheating*on*the*exam*last*week.*He*is*now*very*regretful.,0,,,
+1008,E,Grace*will*take*her*vacation*next*week.*She*plans*to*visit*her*parents*in*Wales.,1,Grace is going to Wales next week.,Right,Wrong
