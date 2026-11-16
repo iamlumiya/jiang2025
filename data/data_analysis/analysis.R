@@ -4,7 +4,7 @@ library(lmerTest)
 library(lme4)
 library(rempsyc)
 
-full_data <- read_csv("/Users/lumikang/analysis_data.csv")
+full_data <- read_csv("/Users/lumikang/Documents/GitHub/-replication/data/pilot_results/analysis_data.csv")
 full_data
 
 # Data preprocessing
@@ -24,6 +24,52 @@ data_spill3 <- filter(spill3_2,
                         RT > mean(RT) - 2.5 * sd(RT))
 
 # Prepare data for lmm analysis
+# [Spill3]
+data_spill3$context <- as.factor(data_spill3$context)
+data_spill3$context <-relevel(data_spill3$context,
+                              ref = "realistic")
+contrasts(data_spill3$context) <- c(-0.5, 0.5)
+
+data_spill3$plausibility <- as.factor(data_spill3$plausibility)
+data_spill3$plausibility <- relevel(data_spill3$plausibility,
+                                    ref = "plausible")
+contrasts(data_spill3$plausibility) <- c(-0.5, 0.5)
+
+data_spill3$subject <- as.factor(data_spill3$subject)
+data_spill3$item <- as.factor(data_spill3$item)
+data_spill3$RT <- as.numeric(data_spill3$RT)
+
+data_spill3 <- data_spill3 %>%
+  mutate(z_CL = scale(CL)) %>%
+  select(subject, item, context, plausibility, z_CL, RT)
+
+# context * plausibility * Z_CL + (1|item) +(1|subject)
+spill3_mdl <- lmer(log(RT) ~ 1 + context * plausibility * z_CL + (1|item) + (1|subject),
+                   data = data_spill3,
+                   control = lmerControl(optimizer = "bobyqa",
+                                         optCtrl = list(maxfun = 1e6)))
+summary(spill3_mdl)
+
+spill3_results <- as.data.frame(summary(spill3_mdl)$coefficients)
+spill3_CI <- confint(spill3_mdl)
+spill3_results <- cbind(spill3_results, spill3_CI[4:11,])
+spill3_results <- tibble::rownames_to_column(spill3_results, "Fixed effects")
+names(spill3_results) <- c("Fixed effects",
+                           "β", "SE", "df",
+                           "t", "p", "CI_lower", "CI_upper")
+
+spill3_results <- spill3_results %>%
+  mutate(p = p.adjust(p, method = "bonferroni")) %>%
+  select("Fixed effects",
+         "β", "SE", "t",
+         "p", "CI_lower", "CI_upper")
+
+spill3_results <- nice_table(spill3_results)
+print(spill3_results, preview = "docx")
+
+data_spill3 %>% group_by(plausibility) %>%
+  summarise(mean(RT))
+
 # [Spill2]
 data_spill2$context <- as.factor(data_spill2$context)
 data_spill2$context <-relevel(data_spill2$context,
@@ -70,3 +116,4 @@ print(spill2_results, preview = "docx")
 
 data_spill2 %>% group_by(plausibility) %>%
   summarize(mean(RT))
+

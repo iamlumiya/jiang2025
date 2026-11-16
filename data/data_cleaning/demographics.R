@@ -6,18 +6,47 @@ files <- c("/Users/lumikang/Downloads/results_prod-3.csv")
 
 read_pcibex <- function(path) {
   lines <- read_lines(path)
-  lines <- lines[!str_detect(lines, "^\\s*(#|$)")]
   
-  read.csv(
-    text = lines,
+  # Check whether each data row has a sonaID column
+  has_sona <- TRUE
+  data_lines <- character()
+  missing_sona <- logical()
+  
+  for (line in lines) {
+    if (str_detect(line, "^#\\s*13\\.\\s*sonaID\\.")) {
+      has_sona <- TRUE
+    } else if (str_detect(line, "^#\\s*13\\.\\s*disorders\\.")) {
+      has_sona <- FALSE
+    }
+    
+    if (!str_detect(line, "^\\s*(#|$)")) {
+      data_lines <- c(data_lines, line)
+      missing_sona <- c(missing_sona, !has_sona)
+    }
+  }
+  
+  dat <- read.csv(
+    text = data_lines,
     header = FALSE,
     col.names = paste0("V", 1:26),
     colClasses = "character",
     fill = TRUE,
     comment.char = ""
-  ) |>
+  )
+  
+  # Insert an empty V13 for rows without a sonaID column.
+  # This restores the original positions of all later columns.
+  if (any(missing_sona)) {
+    dat[missing_sona, 14:26] <- dat[missing_sona, 13:25]
+    dat[missing_sona, 13] <- NA_character_
+  }
+  
+  dat |>
     as_tibble() |>
-    mutate(source_file = path, source_row = row_number())
+    mutate(
+      source_file = path,
+      source_row = row_number()
+    )
 }
 
 raw <- map(files, read_pcibex) |>
