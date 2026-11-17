@@ -75,23 +75,53 @@ Header(
 .log( "age"      , getVar("AGE") )
 .log( "gender"   , getVar("GENDER") )
 .log( "native"   , getVar("NATIVE") )
-.log( "disorders", getVar("DISORDERS") )
-.log( "sonaID"   , GetURLParameter("id")) ;
+.log( "disorders", getVar("DISORDERS"));
 
 // Sequence of events
- Sequence("ethics", "consent1", "setcounter", "participants", "instructions", randomize("exercise"), "start_experiment","experiment",SendResults(), "end")
+ Sequence("consent_info", "consent1", "setcounter", "participants", "instructions", randomize("exercise"), "start_experiment","experiment",SendResults(), "end")
 
-// Ethics
-newTrial("ethics",
-    newHtml("ethics_explanation", "ethics.html")
-        .cssContainer({"margin":"1em"})
+// Consent form
+newTrial("consent_info",
+    newText("consent_text", `
+        <h2>Consent Form</h2>
+
+        <p>You are being invited to participate in a research study titled "Reproducibility of Psychological Science and Instruction." This study is being done by Dr. Bria Long from UC San Diego and associated graduate students in Experimental Methods course. You were selected to participate in this study because you are an adult in the U.S. and have been a represented population in previous psychology studies.</p>
+
+        <p>The purpose of this study is to better understand how well previously published studies in the psychological field replicate online and with different populations. Your participation in this research should last approximately 5-30 minutes. If you agree to take part in this study, you may be asked to view a set of stimuli, including pictures, sounds, written text, or videos and then giving some responses via key-presses, verbally, or with paper-and-pencil. We may also observe your choices or preferences among an array of stimuli. These stimuli will be taken directly from or closely adapted from studies that already exist in the published psychological literature. Stimuli will include, e.g., pictures of objects and human faces, audio and video clips, short text passages, etc. None of the stimuli will be disturbing, threatening, or offensive. The online and in-person experiments described in this protocol will take no more than 30 minutes. An example game you might play would be to click on an image on the screen that matches a word you hear being said out loud. Your total expected time commitment for this study is between 5-30 minutes, and is specified in the study description.</p>
+
+        <p>Your participation in this study is completely voluntary and you can withdraw at any time. Choosing not to participate or withdrawing will result in no penalty or loss of benefits to which you are entitled. You are free to skip any question that you choose.</p>
+
+        <p>We will not be asking for any personally identifying information, and we will handle responses as confidentially as possible. Your SONA or Prolific IDs will never be tied to your responses on this survey. However, we cannot guarantee the confidentiality of information transmitted over the Internet. To minimize this risk, data containing anything that might be personally identifiable (e.g. Prolific IDs or IP addresses) will be encrypted on transfer and storage and will only be accessible to qualified lab personnel. We will be keeping data collected as part of this experiment indefinitely. This anonymized data (containing neither Prolific IDs nor IP addresses) may be shared with the scientific community or with other participants to be used as stimuli in future studies.</p>
+
+        <p>If you have questions about this project or if you have a research-related problem, you may contact the researcher(s), Dr. Bria Long, brlong@ucsd.edu. If you have any questions concerning your rights as a research subject, you may contact the UC San Diego Office of IRB Administration at irb@ucsd.edu or 858-246-4777.</p>
+
+        <p>By participating in this research you are indicating that you are at least 18 years old, have read this consent form, and agree to participate in this research study. Please keep this consent form for your records.</p>
+    `)
+        .cssContainer({
+            "width": "90%",
+            "max-width": "850px",
+            "margin": "20px auto"
+        })
+        .css({
+            "text-align": "left",
+            "font-size": "18px",
+            "line-height": "1.6"
+        })
         .print()
     ,
-    newButton("go_to_info", "Continue")
-        .cssContainer({"margin":"1em"})
-        .enable()
+    newText("decline_notice",
+        "If you do not agree to participate, please close this page."
+    )
         .center()
         .print()
+    ,
+    newButton("agree",
+        "I am at least 18 years old and agree to participate"
+    )
+        .cssContainer({"margin": "20px"})
+        .center()
+        .print()
+        .log()
         .wait()
 );
 
@@ -183,7 +213,6 @@ newTrial("consent1",
                  .failure( newText('errorc6', "Please close the browser and cancel your sign-up in the SONA system. Thank you for your participation.").color("red").bold().center().settings.css("font-size", "24px") ))
             )
 );
-
 // Start the next list as soon as the participant agrees to the ethics statement
 // This is different from PCIbex's normal behavior, which is to move to the next list once 
 // the experiment is completed. In my experiment, multiple participants are likely to start 
@@ -316,7 +345,9 @@ newTrial( "start_experiment" ,
 );
 
 // Experimental trial
-Template("experiment.csv", row =>
+Template(
+    GetTable("experiment_full.csv").setGroupColumn("LIST"),
+    row =>
     newTrial( "experiment",
               newPrimer(),
            // Dashed sentence. Segmentation is marked by "*"
@@ -334,18 +365,22 @@ Template("experiment.csv", row =>
     .log( "type"      , row.TYPE)
 );
 
-// Final screen: explanation of the experiment
+// Final screen: Debriefing + SONA credit link
 newTrial("end",
-    newText("<div class='fancy'><h2>Thank you for participating in our study!</h2></div>")
-        .cssContainer({"margin-top":"1em", "margin-bottom":"1em"})
+    newHtml("debrief_text", "debrief.html")
+        .cssContainer({"margin": "1em"})
+        .print()
+    ,
+    newText("sona_credit",
+        "<p><a href='https://ucsd.sona-systems.com/webstudy_credit.aspx" +
+        "?experiment_id=3164" +
+        "&credit_token=73126f52876e4379883bd9b692aadd15" +
+        "&survey_code=" + encodeURIComponent(GetURLParameter("id")) +
+        "'>Click here to receive your SONA credit.</a></p>"
+    )
         .center()
         .print()
     ,
-    newHtml("explain", "end.html")
-        .center()
-        .print()
-    ,
-    // Trick: stay on this trial forever (until tab is closed)
-    newButton().wait()
+    newButton("hold").wait()
 )
-.setOption("countsForProgressBar",false);
+.setOption("countsForProgressBar", false);
