@@ -42,6 +42,8 @@ data_spill5 <- filter(spill5_2,
 
 # structure
 region_order <- c("critical", "spill1", "spill2", "spill3", "spill4", "spill5")
+condition_order <- c("realistic-plausible", "realistic-implausible", "unrealistic-plausible", "unrealistic-implausible")
+
 
 add_condition <- function(sth) {
   sth$position <- factor(sth$position, levels = region_order)
@@ -110,3 +112,4 @@ rt_plot <- ggplot(
   theme_classic()
 
 print(rt_plot)  
+
