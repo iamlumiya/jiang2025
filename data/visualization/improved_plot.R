@@ -91,3 +91,7 @@ rt_plot <- ggplot(
 
 print(rt_plot)  
 
+ggsave("plot.png", rt_plot,
+       width = 10, height = 6,
+       dpi = 300)
+
