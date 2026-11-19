@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Use the latest cumulative export:
-files <- c("/Users/lumikang/Documents/GitHub/-replication/raw/results_prod-3.csv")
+files <- c("/Users/lumikang/Documents/GitHub/-replication/data/pilot_results/results_deidentified.csv")
 
 read_pcibex <- function(path) {
   lines <- read_lines(path)
