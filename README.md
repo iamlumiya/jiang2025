@@ -1,3 +1,5 @@
+This is a GitHub template to use for replications projects in PSYCH 201a at UCSD. Create a new repo using this as a template in order to use it.
+
 # Replicating Jiang & Filik (2025), Experiment 2
 
 This UC San Diego replication project asks whether a dream context changes how readers process events that are implausible in the real world. It recreates Experiment 2 of Jiang and Filik (2025) as an online, word-by-word self-paced reading task in PCIbex. The repository contains the experiment, pilot data, R scripts, and a replication report in progress.
