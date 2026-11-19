@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # Use the latest cumulative export:
-files <- c("/Users/lumikang/Downloads/results_prod-3.csv")
+files <- c("/Users/lumikang/Documents/GitHub/-replication/raw/results_prod-3.csv")
 
 read_pcibex <- function(path) {
   lines <- read_lines(path)
@@ -97,16 +97,7 @@ session_lists <- raw |>
   )
 
 demographics <- raw |>
-  distinct(session_id, .keep_all = TRUE) |>
-  transmute(
-    session_id,
-    sona_id = V13,
-    submitted_at_pt = format(
-      as.POSIXct(as.numeric(V1), origin = "1970-01-01", tz = "UTC"),
-      tz = "America/Los_Angeles",
-      format = "%Y-%m-%d %H:%M:%S %Z"
-    )
-  ) |>
+  distinct(session_id) |>
   left_join(session_lists, by = "session_id") |>
   left_join(demo_answers, by = "session_id")
 
