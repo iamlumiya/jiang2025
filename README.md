@@ -42,3 +42,5 @@ To run the power simulations, set the input in [`jiang_power.R`](data/power_anal
 ## Original study
 
 Jiang, C., & Filik, R. (2025). Expecting the unexpected: Examining the interplay between real-world knowledge and contextual cues during language comprehension. *Memory & Cognition, 53*, 1888–1908. [https://doi.org/10.3758/s13421-025-01689-x](https://doi.org/10.3758/s13421-025-01689-x)
+
+Evidence that Hew was here. You do not need to accept this pull request. The quarto file rendered without any changing of file paths.
